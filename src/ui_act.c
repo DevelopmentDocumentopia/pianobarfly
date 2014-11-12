@@ -340,6 +340,15 @@ BarUiActCallback(BarUiActSkipSong) {
 
 /*	pause
  */
+BarUiActCallback(BarUiActUnPauseOnly) {
+	pthread_mutex_trylock (&app->player.pauseMutex);
+	pthread_mutex_unlock (&app->player.pauseMutex);
+}
+BarUiActCallback(BarUiActPauseOnly) {
+	/* already locked => unlock/unpause */
+	if (pthread_mutex_trylock (&app->player.pauseMutex) == EBUSY) {
+	}
+}
 BarUiActCallback(BarUiActPause) {
 	/* already locked => unlock/unpause */
 	if (pthread_mutex_trylock (&app->player.pauseMutex) == EBUSY) {

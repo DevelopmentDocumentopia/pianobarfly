@@ -46,6 +46,8 @@ BarUiActCallback(BarUiActSongInfo);
 BarUiActCallback(BarUiActLoveSong);
 BarUiActCallback(BarUiActSkipSong);
 BarUiActCallback(BarUiActPause);
+BarUiActCallback(BarUiActPauseOnly);
+BarUiActCallback(BarUiActUnPauseOnly);
 BarUiActCallback(BarUiActRenameStation);
 BarUiActCallback(BarUiActSelectStation);
 BarUiActCallback(BarUiActTempBanSong);
