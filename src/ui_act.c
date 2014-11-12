@@ -341,18 +341,32 @@ BarUiActCallback(BarUiActSkipSong) {
 /*	pause
  */
 BarUiActCallback(BarUiActUnPauseOnly) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+
 	pthread_mutex_trylock (&app->player.pauseMutex);
 	pthread_mutex_unlock (&app->player.pauseMutex);
+	BarUiActDefaultEventcmd ("unpause");
 }
 BarUiActCallback(BarUiActPauseOnly) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+
 	/* already locked => unlock/unpause */
-	if (pthread_mutex_trylock (&app->player.pauseMutex) == EBUSY) {
+	if (pthread_mutex_trylock (&app->player.pauseMutex) != EBUSY) {
+		BarUiActDefaultEventcmd ("pause");
 	}
 }
 BarUiActCallback(BarUiActPause) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+
 	/* already locked => unlock/unpause */
 	if (pthread_mutex_trylock (&app->player.pauseMutex) == EBUSY) {
+		BarUiActDefaultEventcmd ("unpause");
 		pthread_mutex_unlock (&app->player.pauseMutex);
+	} else {
+		BarUiActDefaultEventcmd ("pause");
 	}
 }
 
@@ -495,6 +509,11 @@ BarUiActCallback(BarUiActSelectQuickMix) {
 /*	quit
  */
 BarUiActCallback(BarUiActQuit) {
+	PianoReturn_t pRet;
+	WaitressReturn_t wRet;
+
+	BarUiActDefaultEventcmd ("quit");
+
 	app->doQuit = 1;
 	BarUiDoSkipSong (&app->player);
 }
